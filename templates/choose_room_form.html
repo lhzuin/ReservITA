@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>ReservITA</title>
+</head>
+<body>
+   <center><img src="static/img/ReservITA.png" alt="Logo ReservITA"></center>
+   <img src="static/img/H8.png" alt="Mapa H8">
+   {% for key,value in form_data.items() %}
+    <h2> {{key}}</h2>
+    <p> {{value}}</p>
+    {% endfor %}
+   <p><img src="static/img/ita-logo.png" alt="Logo ITA" width="175" height="67"></p>
+</body>
+
+</html>
