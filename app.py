@@ -47,4 +47,5 @@ with app.test_request_context():
     print(url_for('form'))
     print(url_for('show_user_profile', username='Zuin'))
 
-app.run(host='localhost', port=5000)
+if __name__ == "__main__":
+    app.run(debug=True, host='localhost', port=5000)
