@@ -6,10 +6,9 @@ import user_db
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/') #página inútil por enquanto
+@app.route('/')
 def index():
     return redirect('/form')
-    #return render_template('index.html')
 
 @app.route('/form')
 def form():
@@ -21,11 +20,6 @@ def data():
     if request.method == 'POST':
         form_data = request.form
         if user_db.valid_login(form_data['username'],form_data['password']):
-            #return show_user_profile(form_data['username'])
-            #return render_template('data.html', form_data = form_data)
-            #return redirect('/select_room', username= form_data['username'])
-            #return select_room(form_data['username'])
-            #return redirect('/data2')
             return render_template('choose_room_form.html', form_data=form_data)
         else:
             error = 'Invalid username/password'
@@ -36,13 +30,13 @@ def data():
 
 
 @app.route('/choose_date', methods=['POST', 'GET'])
-def data2():
+def choose_date():
     error = None
     if request.method == 'POST':
         form_data = request.form
         return render_template('choose_date_form.html', form_data=form_data)
     else:
-        render_template('form.html', error=error)
+        return render_template('form.html', error=error)
     # the code below is executed if the request method
     # was GET or the credentials were invalid
 
