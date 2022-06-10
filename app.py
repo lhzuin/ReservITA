@@ -7,7 +7,8 @@ CORS(app)
 
 @app.route('/') #página inútil por enquanto
 def index():
-    return render_template('index.html')
+    return redirect('/data')
+    #return render_template('index.html')
 
 @app.route('/form')
 def form():
