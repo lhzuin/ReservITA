@@ -8,7 +8,7 @@ CORS(app)
 
 @app.route('/') #página inútil por enquanto
 def index():
-    return redirect('/data')
+    return redirect('/form')
     #return render_template('index.html')
 
 @app.route('/form')
@@ -25,6 +25,7 @@ def data():
             #return render_template('data.html', form_data = form_data)
             #return redirect('/select_room', username= form_data['username'])
             #return select_room(form_data['username'])
+            #return redirect('/data2')
             return render_template('choose_room_form.html', form_data=form_data)
         else:
             error = 'Invalid username/password'
@@ -33,6 +34,17 @@ def data():
     # the code below is executed if the request method
     # was GET or the credentials were invalid
 
+
+@app.route('/choose_date', methods=['POST', 'GET'])
+def data2():
+    error = None
+    if request.method == 'POST':
+        form_data = request.form
+        return render_template('choose_date_form.html', form_data=form_data)
+    else:
+        render_template('form.html', error=error)
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
 
 @app.route('/user/<username>/') #por enquanto é inútil
 def show_user_profile(username):
