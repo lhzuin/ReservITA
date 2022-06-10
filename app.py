@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, request, redirect
 from markupsafe import escape
 from flask_cors import CORS
 import user_db
+#from choose_room_form import pergunta
 app = Flask(__name__)
 CORS(app)
 
@@ -47,6 +48,11 @@ with app.test_request_context():
     print(url_for('index'))
     print(url_for('form'))
     print(url_for('show_user_profile', username='Zuin'))
+
+def check():
+    q1 = pergunta.value
+    print(q1)
+
 
 if __name__ == "__main__":
     app.run(debug=True, host='localhost', port=5000)
