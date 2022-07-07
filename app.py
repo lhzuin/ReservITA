@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, request, redirect
 from markupsafe import escape
 from flask_cors import CORS
 import user_db
+from datetime import date
 #from choose_room_form import pergunta
 app = Flask(__name__)
 CORS(app)

@@ -35,13 +35,69 @@
        <div class="column2"><form action="data2" method = "POST">
 <div>
     <p>Escolha uma data</p>
-    <p><input type="radio" name="pergunta" value="A - 10/06/2022">A - 10/06/2022</p>
-    <p><input type="radio" name="pergunta" value="B - 11/06/2022">B - 11/06/2022</p>
-    <p><input type="radio" name="pergunta" value="C - 12/06/2022">C - 12/06/2022</p>
-    <p><input type="radio" name="pergunta" value="D - 13/06/2022">D - 13/06/2022</p>
-    <p><input type="radio" name="pergunta" value="E - 14/06/2022">E - 14/06/2022</p>
-    <p><input type="radio" name="pergunta" value="F - 15/06/2022">F - 15/06/2022</p>
-    <p><input type="radio" name="pergunta" value="G - 16/06/2022">G - 16/06/2022</p>
+    <p><input type="radio" name="pergunta" value="today"> <div id = "today">
+    <script>
+        date = new Date();
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("today").innerHTML = day + "/" + month + "/" + year;
+    </script></div>
+
+    <p><input type="radio" name="pergunta" value="1"> <div id = "offset1">
+    <script>
+        date = new Date();
+        date.setDate(date.getDate()+1);
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("offset1").innerHTML = day + "/" + month + "/" + year;
+    </script></div></p>
+    <p><input type="radio" name="pergunta" value="2"><div id = "offset2">
+    <script>
+        date = new Date();
+        date.setDate(date.getDate()+2);
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("offset2").innerHTML = day + "/" + month + "/" + year;
+    </script></div></p>
+    <p><input type="radio" name="pergunta" value="3"><div id = "offset3">
+    <script>
+        date = new Date();
+        date.setDate(date.getDate()+3);
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("offset3").innerHTML = day + "/" + month + "/" + year;
+    </script></div></p>
+    <p><input type="radio" name="pergunta" value="4"><div id = "offset4">
+    <script>
+        date = new Date();
+        date.setDate(date.getDate()+4);
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("offset4").innerHTML = day + "/" + month + "/" + year;
+    </script></div></p>
+    <p><input type="radio" name="pergunta" value="5"><div id = "offset5">
+    <script>
+        date = new Date();
+        date.setDate(date.getDate()+5);
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("offset5").innerHTML = day + "/" + month + "/" + year;
+    </script></div></p>
+    <p><input type="radio" name="pergunta" value="6"><div id = "offset6">
+    <script>
+        date = new Date();
+        date.setDate(date.getDate()+6);
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("offset6").innerHTML = day + "/" + month + "/" + year;
+    </script></div></p>
 
     <left><p><input type = "submit" value = "Avançar" /></p></left>
 </form>
