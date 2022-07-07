@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>ReservITA</title>
+    <style>
+    .column {
+    float: left;
+    width: 60%;
+    padding: 5px;
+    }
+</style>
+    <style>
+    .column2 {
+    float: left;
+    width: 30%;
+    padding: 5px;
+    }
+</style>
+    <style>
+    .row::after{
+    content: "";
+    clear: both;
+    display: table;
+    }
+</style>
+</head>
+<body>
+   <center><img src="static/img/ReservITA.png" alt="Logo ReservITA"></center>
+    {% for key,value in form_data.items() %}
+    <center><h1> {{value}}</h1></center>
+    {% endfor %}
+   <div class="row">
+       <div class="column"><img src="static/img/H8.png" alt="Mapa H8"> </div>
+       <div class="column2"><form action="select_time" method = "POST">
+<div>
+    <p><strong>Horários</strong></p>
+           <p><input type="radio" name="pergunta" value="00:00 - 00:30">00:00 - 00:30</p>
+           <p><input type="radio" name="pergunta" value="00:30 - 01:00">00:30 - 01:00</p>
+           <p><input type="radio" name="pergunta" value="01:00 - 01:30">01:00 - 01:30</p>
+           <p><input type="radio" name="pergunta" value="01:30 - 02:00">01:30 - 02:00</p>
+           <p><input type="radio" name="pergunta" value="02:00 - 02:30">02:00 - 02:30</p>
+           <p><input type="radio" name="pergunta" value="02:30 - 03:00">02:30 - 03:00</p>
+           <left><p><input type = "submit" value = "Avançar" /></p></left>
+</form>
+</div>
+       </div>
+       </div>
+       <div class="row">
+           <div class="column"><img src="static/img/ita-logo.png" alt="Logo ITA" width="175" height="67"> </div>
+       </div>
+
+
+   </div>
+
+
+</body>

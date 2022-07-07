@@ -41,6 +41,18 @@ def choose_date():
     # the code below is executed if the request method
     # was GET or the credentials were invalid
 
+@app.route('/select_time', methods=['POST', 'GET'])
+def select_time():
+    error = None
+    if request.method == 'POST':
+        form_data = request.form
+        return render_template('choose_hour_form.html', form_data=form_data)
+    else:
+        return render_template('form.html', error=error)
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
+
+
 @app.route('/user/<username>/') #por enquanto é inútil
 def show_user_profile(username):
     # show the user profile for that user
