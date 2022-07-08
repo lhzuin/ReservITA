@@ -54,12 +54,12 @@ class User(db.Model):
         self.username = name
         self.password = password
 
-def valid_login(username, password):
+def valid_login(username, password): # checa se usuário apresentou credenciais válidas
     #return True
     return db.session.query(User).filter(User.username == username and User.password == password).count() != 0
-def check_schedule(room, date):
+def check_schedule(room, date): # checa horários livres de uma sala
     #room ex: "A - Churrasqueira"
-    #date ex: "08/07/2022"
+    #date ex: "8/7/2022"
     horarios_livres = ["00:00 - 00:30", "00:30 - 01:00", "01:00 - 01:30", "01:30 - 02:00", "07:00 - 07:30", "07:30 - 08:00"]
     for horario in horarios_livres:
         if db.session.query(Horarios).filter(Horarios.intervalo == horario and Horarios.room == room and Horarios.date == date).count() != 0:
@@ -67,25 +67,25 @@ def check_schedule(room, date):
     return horarios_livres # returns free schedule
 
 
-def make_reservation(room, date, time, user):
+def make_reservation(room, date, time, user): # faz reserva de uma sala para usuário na data solicitada
     reservation = Horarios(date, room, time, user)
     db.session.add(reservation)
     db.session.commit()
-def cancel_reservation(room, date, time):
+def cancel_reservation(room, date, time): # cancela a reserva do usuário
     pass
 
-def check_past_reservations(room, user): # retorna todos as reservas feitas pelo user na sala room conforme o formato abaixo
+def check_past_reservations(room, user): # retorna todos as reservas feitas pelo user na sala room
     return [["10/7/2022", "14:00 - 14:30"], ["10/7/2022", "14:30 - 15:00"]]
 
 @app.route('/')
 def index():
     return redirect('/form')
 
-@app.route('/form')
+@app.route('/form') #página de login
 def form():
     return render_template('form.html')
 
-@app.route('/data', methods=['POST', 'GET'])
+@app.route('/data', methods=['POST', 'GET']) # página em que usário seleciona sala desejada ou escolhe viusalizar suas reservas anteriores
 def data():
     if request.method == 'POST':
         form_data = request.form
@@ -97,20 +97,17 @@ def data():
             return render_template('wrong_login.html')
     else:
         return render_template('form.html')
-    # the code below is executed if the request method
-    # was GET or the credentials were invalid
 
-@app.route('/choose_room_check', methods=['POST', 'GET'])
+@app.route('/choose_room_check', methods=['POST', 'GET']) # página em que o usuário escolhe a sala para então visualizar suas reservas ativas
 def choose_room_check():
     error = None
     if request.method == 'POST':
         return render_template('choose_room_check_reservations.html')
     else:
         return render_template('form.html', error=error)
-    # the code below is executed if the request method
-    # was GET or the credentials were invalid
 
-@app.route('/choose_date', methods=['POST', 'GET'])
+
+@app.route('/choose_date', methods=['POST', 'GET']) # página em que o usuário escolhe a data que quer reservar a sala
 def choose_date():
     error = None
     if request.method == 'POST':
@@ -120,10 +117,8 @@ def choose_date():
         return render_template('choose_date_form.html', form_data=form_data)
     else:
         return render_template('form.html', error=error)
-    # the code below is executed if the request method
-    # was GET or the credentials were invalid
 
-@app.route('/select_time', methods=['POST', 'GET'])
+@app.route('/select_time', methods=['POST', 'GET']) # página em que o usuário selecona o horário desejado para realizar a reserva
 def select_time():
     error = None
     if request.method == 'POST':
@@ -136,10 +131,9 @@ def select_time():
         return render_template('choose_hour_form.html', chosen_date = final_date, room = selected_room, schedule = available_schedule)
     else:
         return render_template('form.html', error=error)
-    # the code below is executed if the request method
-    # was GET or the credentials were invalid
 
-@app.route('/select_scheduled_time', methods=['POST', 'GET'])
+
+@app.route('/select_scheduled_time', methods=['POST', 'GET']) # página em que o usuário seleciona os horários que deseja cancelar sua reserva
 def select_scheduled_time():
     if request.method == 'POST':
         form_data = request.form
@@ -149,10 +143,9 @@ def select_scheduled_time():
         return render_template('select_scheduled_time.html', room = selected_room, schedule = [x + "->" + y for x,y in past_reservations])
     else:
         return render_template('form.html', error=error)
-    # the code below is executed if the request method
-    # was GET or the credentials were invalid
 
-@app.route('/reservation_complete', methods=['POST', 'GET'])
+
+@app.route('/reservation_complete', methods=['POST', 'GET']) # página de redirecionamento para quando a reserva é feita com sucesso
 def reservation_complete():
     error = None
     if request.method == 'POST':
@@ -179,10 +172,9 @@ def reservation_complete():
         return render_template('reservation_complete.html')
     else:
         return render_template('form.html', error=error)
-    # the code below is executed if the request method
-    # was GET or the credentials were invalid
 
-@app.route('/reservation_cancelled', methods=['POST', 'GET'])
+
+@app.route('/reservation_cancelled', methods=['POST', 'GET']) # página de redirecionamento para quando a reserva é cancelada com sucesso
 def reservation_cancelled():
     error = None
     if request.method == 'POST':
@@ -212,25 +204,6 @@ def reservation_cancelled():
         return render_template('reservation_complete.html')
     else:
         return render_template('form.html', error=error)
-    # the code below is executed if the request method
-    # was GET or the credentials were invalid
-
-
-@app.route('/user/<username>/') #por enquanto é inútil
-def show_user_profile(username):
-    # show the user profile for that user
-    return f'User {escape(username)}'
-
-@app.route('/select_room')
-def select_room(username):
-    #redirect('/select_room')
-    return render_template('choose_room_form.html')
-
-
-def check():
-    q1 = pergunta.value
-    print(q1)
-
 
 if __name__ == "__main__":
     app.run(debug=True, host='localhost', port=5000)
