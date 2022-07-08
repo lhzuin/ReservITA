@@ -1,11 +1,13 @@
 import datetime
 
 from flask import Flask, render_template, url_for, request, redirect
-
+from markupsafe import escape
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+import sqlalchemy as sql
 
-
+import room_db
+import user_db
 from datetime import date
 from random import randint
 
@@ -78,7 +80,9 @@ def make_reservation(room, date, time, user): # faz reserva de uma sala para usu
 
 
 def cancel_reservation(room, date, time): # cancela a reserva do usuário
-    pass
+    query = "DELETE FROM horarios \
+             WHERE room = '" + room + "' AND date = '" + date +"' AND intervalo = '" + time + "'"
+    db.engine.execute(query)
 
 def check_past_reservations(room, user): # retorna todos as reservas feitas pelo user na sala room
     query = "SELECT date, intervalo FROM horarios \
