@@ -19,4 +19,4 @@ def cancel_reservation(room, date, time):
     pass
 
 def check_past_reservations(room, user): # retorna todos as reservas feitas pelo user na sala room conforme o formato abaixo
-    return ["14:00 - 14:30  10/07/2022", "14:30 - 15:00  10/07/2022"]
+    return ["14:00 - 14:30  10/7/2022", "14:30 - 15:00  10/7/2022"]

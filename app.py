@@ -75,7 +75,7 @@ def cancel_reservation(room, date, time):
     pass
 
 def check_past_reservations(room, user): # retorna todos as reservas feitas pelo user na sala room conforme o formato abaixo
-    return [["14:00 - 14:30", "10/07/2022"], ["14:30 - 15:00",  "10/07/2022"]]
+    return [["10/7/2022", "14:00 - 14:30"], ["10/7/2022", "14:30 - 15:00"]]
 
 @app.route('/')
 def index():
@@ -146,7 +146,7 @@ def select_scheduled_time():
         global selected_room
         selected_room = form_data["pergunta"]
         past_reservations = check_past_reservations(selected_room, username)
-        return render_template('select_scheduled_time.html', room = selected_room, schedule = [x + " / " + y for x,y in past_reservations])
+        return render_template('select_scheduled_time.html', room = selected_room, schedule = [x + "->" + y for x,y in past_reservations])
     else:
         return render_template('form.html', error=error)
     # the code below is executed if the request method
@@ -187,7 +187,10 @@ def reservation_cancelled():
     error = None
     if request.method == 'POST':
         form_data = request.form
-        for (x,time) in form_data.items():
+        for (x,txt) in form_data.items():
+            temp = txt.split('->')
+            time = temp[1]
+            date = temp[0]
             minute = int(time[3:5])
             hour = int(time[0:2])
             new_hour = str(hour)
@@ -204,7 +207,7 @@ def reservation_cancelled():
             elif (minute == 30 and hour >= 9):
                 new_hour = str(hour+1)
                 new_minute = '00'
-            room_db.cancel_reservation(selected_room,  "1/1/1", time + " - " + new_hour + ':' + new_minute)
+            room_db.cancel_reservation(selected_room,  date, time + " - " + new_hour + ':' + new_minute)
 
         return render_template('reservation_complete.html')
     else:
