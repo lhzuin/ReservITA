@@ -6,6 +6,9 @@ def check_schedule(room, date):
 def make_reservation(room, date, time, user):
     # time ex: "00:30 - 01:00"
     pass
+
+def check_reservations(room, user):
+    pass
 class Room:
     def __init__(self, name, schedule_matrix):
         self.name = name

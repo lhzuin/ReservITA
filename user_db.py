@@ -1,17 +1,19 @@
-from flask_wtf import FlaskForm
+
+#from flask_wtf import FlaskForm
 import validators
 from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired
+#from wtforms.validators import DataRequired
 from flask import render_template
-from app import app
+#from app import app
 
-
+"""
 from app import LoginForm
 
-
+"""
 
 def valid_login(username, password):
-
+    return True
+    """
     username = StringField('username', [validators.DataRequired()])
     password = PasswordField('password', [validators.DataRequired()])
 
@@ -26,6 +28,7 @@ def valid_login(username, password):
         return False    
 
     return render_template('form.html', form=form)
+    """
 class User:
     def __init(self, name, phone, email, password, priority, status):
         self.name = name

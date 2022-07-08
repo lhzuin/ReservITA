@@ -94,7 +94,6 @@ def choose_date():
         form_data = request.form
         global selected_room
         selected_room = form_data["pergunta"]
-        #print(selected_room)
         return render_template('choose_date_form.html', form_data=form_data)
     else:
         return render_template('form.html', error=error)
@@ -122,10 +121,9 @@ def reservation_complete():
     error = None
     if request.method == 'POST':
         form_data = request.form
-        selected_times = form_data
-        for x,time in form_data.items():
-            minute = int(time[3:4])
-            hour = int(time[0:1])
+        for (x,time) in form_data.items():
+            minute = int(time[3:5])
+            hour = int(time[0:2])
             new_hour = str(hour)
             new_minute = str(minute)
             if(minute == 0 and hour < 10):
@@ -142,7 +140,6 @@ def reservation_complete():
                 new_minute = '00'
             room_db.make_reservation(selected_room, final_date, time + " - " + new_hour + ':' + new_minute, username)
 
-        print(selected_times)
         return render_template('reservation_complete.html')
     else:
         return render_template('form.html', error=error)
