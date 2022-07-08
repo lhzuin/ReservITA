@@ -4,6 +4,7 @@ from flask import Flask, render_template, url_for, request, redirect
 from markupsafe import escape
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+import sqlalchemy as sql
 
 import room_db
 import user_db
@@ -55,9 +56,12 @@ class User(db.Model):
         self.username = name
         self.password = password
 
+
 def valid_login(username, password): # checa se usuário apresentou credenciais válidas
     #return True
     return db.session.query(User).filter(User.username == username).filter(User.password == password).count() != 0
+
+
 def check_schedule(room, date): # checa horários livres de uma sala
     #room ex: "A - Churrasqueira"
     #date ex: "8/7/2022"
@@ -79,8 +83,16 @@ def cancel_reservation(room, date, time): # cancela a reserva do usuário
     pass
 
 def check_past_reservations(room, user): # retorna todos as reservas feitas pelo user na sala room
-    #if db.session.query(Horarios).filter(Horarios.room == room.filter(Horarios.aluno == user).count != 0:
-    return [["10/7/2022", "14:00 - 14:30"], ["10/7/2022", "14:30 - 15:00"]]
+    query = "SELECT date, intervalo FROM horarios \
+                WHERE aluno = '" + user + "' \
+                AND room = '" + room + "'"
+    result = db.engine.execute(query)
+
+    lista_externa = []
+    for (data, intervalo) in list(result):
+        lista_externa.append([data, intervalo])
+
+    return lista_externa
 
 @app.route('/')
 def index():
