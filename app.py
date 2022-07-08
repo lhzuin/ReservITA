@@ -45,7 +45,18 @@ class Horarios(db.Model):
         self.intervalo = intervalo
         self.aluno = aluno
 
+class User(db.Model):
+    __tablename__ = 'usuarios'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100))
+    password = db.Column(db.String(200))
+    def __init(self, name, password):
+        self.username = name
+        self.password = password
 
+def valid_login(username, password):
+    #return True
+    return db.session.query(User).filter(User.username == username and User.password == password).count() != 0
 def check_schedule(room, date):
     #room ex: "A - Churrasqueira"
     #date ex: "08/07/2022"
@@ -64,7 +75,7 @@ def cancel_reservation(room, date, time):
     pass
 
 def check_past_reservations(room, user): # retorna todos as reservas feitas pelo user na sala room conforme o formato abaixo
-    return ["14:00 - 14:30  10/07/2022", "14:30 - 15:00  10/07/2022"]
+    return [["14:00 - 14:30", "10/07/2022"], ["14:30 - 15:00",  "10/07/2022"]]
 
 @app.route('/')
 def index():
@@ -135,7 +146,7 @@ def select_scheduled_time():
         global selected_room
         selected_room = form_data["pergunta"]
         past_reservations = check_past_reservations(selected_room, username)
-        return render_template('select_scheduled_time.html', room = selected_room, schedule = past_reservations)
+        return render_template('select_scheduled_time.html', room = selected_room, schedule = [x + " / " + y for x,y in past_reservations])
     else:
         return render_template('form.html', error=error)
     # the code below is executed if the request method

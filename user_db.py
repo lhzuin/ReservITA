@@ -3,18 +3,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 def valid_login(username, password):
-    #return True
-    user = User.query.filter_by( username).first()
+    return True
+    #return db.session.query(User).filter(User.username == username and User.password == password).count() != 0
 
-    if not user or not check_password_hash(user.password, password):
-        return True
-    else:
-        return False
 class User:
-    def __init(self, name, phone, email, password, priority, status):
-        self.name = name
-        self.phone = phone
-        self.email = email
+    def __init(self, name, password):
+        self.username = name
         self.password = password
-        self.priority = priority
-        self.status = status

@@ -52,7 +52,7 @@
 <div>
     <p><strong>Horários</strong></p>
             {% for time in schedule%}
-            <p><input type="checkbox" name={{forloop.counter0}} value= {{time}}>{{time}}</p>
+            <p><input type="checkbox" name={{time}} value= {{time}}>{{time}}</p>
             {% endfor %}
            <left><p><input type = "submit" value = "Cancelar Reservas" /></p></left>
 </form>
