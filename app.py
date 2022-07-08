@@ -3,10 +3,16 @@ import datetime
 from flask import Flask, render_template, url_for, request, redirect
 from markupsafe import escape
 from flask_cors import CORS
+
+import room_db
 import user_db
 from datetime import date
 
+
+
 selected_room = None
+final_date = None
+username = None
 
 app = Flask(__name__)
 CORS(app)
@@ -24,6 +30,8 @@ def data():
     error = None
     if request.method == 'POST':
         form_data = request.form
+        global username
+        username = form_data['username']
         if user_db.valid_login(form_data['username'],form_data['password']):
             return render_template('choose_room_form.html', form_data=form_data)
         else:
@@ -55,13 +63,46 @@ def select_time():
         form_data = request.form
         shift = int(form_data["pergunta"])
         reservation_date = date.today() + datetime.timedelta(days = shift)
+        global final_date
         final_date = str(reservation_date.day) + '/' + str(reservation_date.month) + '/' + str(reservation_date.year)
-        return render_template('choose_hour_form.html', chosen_date = final_date, room = selected_room)
+        available_schedule = room_db.check_schedule(selected_room, final_date)
+        return render_template('choose_hour_form.html', chosen_date = final_date, room = selected_room, schedule = available_schedule)
     else:
         return render_template('form.html', error=error)
     # the code below is executed if the request method
     # was GET or the credentials were invalid
 
+@app.route('/reservation_complete', methods=['POST', 'GET'])
+def reservation_complete():
+    error = None
+    if request.method == 'POST':
+        form_data = request.form
+        selected_times = form_data
+        for x,time in form_data.items():
+            minute = int(time[3:4])
+            hour = int(time[0:1])
+            new_hour = str(hour)
+            new_minute = str(minute)
+            if(minute == 0 and hour < 10):
+                new_hour = '0'+ str(hour)
+                new_minute = '30'
+            elif (minute == 0 and hour >=10):
+                new_hour = str(hour)
+                new_minute = '30'
+            elif (minute == 30 and hour < 9):
+                new_hour = '0' + str(hour+1)
+                new_minute = '00'
+            elif (minute == 30 and hour >= 9):
+                new_hour = str(hour+1)
+                new_minute = '00'
+            room_db.make_reservation(selected_room, final_date, time + " - " + new_hour + ':' + new_minute, username)
+
+        print(selected_times)
+        return render_template('reservation_complete.html')
+    else:
+        return render_template('form.html', error=error)
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
 
 @app.route('/user/<username>/') #por enquanto é inútil
 def show_user_profile(username):
@@ -73,11 +114,6 @@ def select_room(username):
     #redirect('/select_room')
     return render_template('choose_room_form.html')
 
-
-with app.test_request_context():
-    print(url_for('index'))
-    print(url_for('form'))
-    print(url_for('show_user_profile', username='Zuin'))
 
 def check():
     q1 = pergunta.value

@@ -27,7 +27,7 @@
 </head>
 <body>
    <center><img src="static/img/ReservITA.png" alt="Logo ReservITA"></center>
-   <p><center><h1> {{chosen_date}} </h1> </center></p>
+   <p><center><h1> {{room}}: {{chosen_date}} </h1> </center></p>
 
    <div class="row">
        {% if room == "A - Churrasqueira"%}
@@ -48,15 +48,12 @@
        {% if room == "F - Sala de Piano"%}
        <div class="column"><img src="static/img/saladepiano.png" alt="saladepiano"> </div>
        {% endif %}
-       <div class="column2"><form action="select_time" method = "POST">
+       <div class="column2"><form action="reservation_complete" method = "POST">
 <div>
     <p><strong>Horários</strong></p>
-           <p><input type="checkbox" name="pergunta" value="00:00 - 00:30">00:00 - 00:30</p>
-           <p><input type="checkbox" name="pergunta" value="00:30 - 01:00">00:30 - 01:00</p>
-           <p><input type="checkbox" name="pergunta" value="01:00 - 01:30">01:00 - 01:30</p>
-           <p><input type="checkbox" name="pergunta" value="01:30 - 02:00">01:30 - 02:00</p>
-           <p><input type="checkbox" name="pergunta" value="02:00 - 02:30">02:00 - 02:30</p>
-           <p><input type="checkbox" name="pergunta" value="02:30 - 03:00">02:30 - 03:00</p>
+            {% for time in schedule%}
+            <p><input type="checkbox" name="pergunta" value= {{time}}>{{time}}</p>
+            {% endfor %}
            <left><p><input type = "submit" value = "Avançar" /></p></left>
 </form>
 </div>
