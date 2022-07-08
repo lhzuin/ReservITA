@@ -91,7 +91,7 @@ def data():
         form_data = request.form
         global username
         username = form_data['username']
-        if user_db.valid_login(form_data['username'],form_data['password']):
+        if valid_login(form_data['username'],form_data['password']):
             return render_template('choose_room_form.html', form_data=form_data)
         else:
             return render_template('wrong_login.html')
@@ -132,7 +132,7 @@ def select_time():
         reservation_date = date.today() + datetime.timedelta(days = shift)
         global final_date
         final_date = str(reservation_date.day) + '/' + str(reservation_date.month) + '/' + str(reservation_date.year)
-        available_schedule = room_db.check_schedule(selected_room, final_date)
+        available_schedule = check_schedule(selected_room, final_date)
         return render_template('choose_hour_form.html', chosen_date = final_date, room = selected_room, schedule = available_schedule)
     else:
         return render_template('form.html', error=error)
@@ -174,7 +174,7 @@ def reservation_complete():
             elif (minute == 30 and hour >= 9):
                 new_hour = str(hour+1)
                 new_minute = '00'
-            room_db.make_reservation(selected_room, final_date, time + " - " + new_hour + ':' + new_minute, username)
+            make_reservation(selected_room, final_date, time + " - " + new_hour + ':' + new_minute, username)
 
         return render_template('reservation_complete.html')
     else:
@@ -207,7 +207,7 @@ def reservation_cancelled():
             elif (minute == 30 and hour >= 9):
                 new_hour = str(hour+1)
                 new_minute = '00'
-            room_db.cancel_reservation(selected_room,  date, time + " - " + new_hour + ':' + new_minute)
+            cancel_reservation(selected_room,  date, time + " - " + new_hour + ':' + new_minute)
 
         return render_template('reservation_complete.html')
     else:
