@@ -3,6 +3,9 @@ from markupsafe import escape
 from flask_cors import CORS
 import user_db
 from datetime import date
+
+selected_room = None
+
 #from choose_room_form import pergunta
 app = Flask(__name__)
 CORS(app)
@@ -35,6 +38,9 @@ def choose_date():
     error = None
     if request.method == 'POST':
         form_data = request.form
+        global selected_room
+        selected_room = form_data["pergunta"]
+        print(selected_room)
         return render_template('choose_date_form.html', form_data=form_data)
     else:
         return render_template('form.html', error=error)
@@ -46,7 +52,8 @@ def select_time():
     error = None
     if request.method == 'POST':
         form_data = request.form
-        return render_template('choose_hour_form.html', form_data=form_data)
+        print(selected_room)
+        return render_template('choose_hour_form.html', form_data=form_data, room = selected_room)
     else:
         return render_template('form.html', error=error)
     # the code below is executed if the request method
@@ -62,6 +69,7 @@ def show_user_profile(username):
 def select_room(username):
     #redirect('/select_room')
     return render_template('choose_room_form.html')
+
 
 with app.test_request_context():
     print(url_for('index'))
