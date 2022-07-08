@@ -28,7 +28,90 @@
 <body>
    <center><img src="static/img/ReservITA.png" alt="Logo ReservITA"></center>
     {% for key,value in form_data.items() %}
-    <center><h1> {{value}}</h1></center>
+    {% if value == "today" %}
+    <p><center><h1><div id = "today">
+    <script>
+        date = new Date();
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("today").innerHTML = day + "/" + month + "/" + year;
+    </script></div><h1></h1></center></p>
+     {%endif %}
+
+       {%if value == "1" %}
+       <p><center><h1><div id = "1">
+    <script>
+        date = new Date();
+        date.setDate(date.getDate()+1);
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("1").innerHTML = day + "/" + month + "/" + year;
+    </script></div><h1></h1></center></p>
+       {%endif%}
+
+           {%if value == "2" %}
+       <p><center><h1><div id = "2">
+    <script>
+        date = new Date();
+        date.setDate(date.getDate()+2);
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("2").innerHTML = day + "/" + month + "/" + year;
+    </script></div><h1></h1></center></p>
+       {%endif%}
+
+               {%if value == "3" %}
+       <p><center><h1><div id = "3">
+    <script>
+        date = new Date();
+        date.setDate(date.getDate()+3);
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("3").innerHTML = day + "/" + month + "/" + year;
+    </script></div><h1></h1></center></p>
+       {%endif%}
+
+           {%if value == "4" %}
+       <p><center><h1><div id = "4">
+    <script>
+        date = new Date();
+        date.setDate(date.getDate()+4);
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("4").innerHTML = day + "/" + month + "/" + year;
+    </script></div><h1></h1></center></p>
+       {%endif%}
+
+           {%if value == "5" %}
+       <p><center><h1><div id = "5">
+    <script>
+        date = new Date();
+        date.setDate(date.getDate()+5);
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("5").innerHTML = day + "/" + month + "/" + year;
+    </script></div><h1></h1></center></p>
+       {%endif%}
+
+
+           {%if value == "6" %}
+       <p><center><h1><div id = "6">
+    <script>
+        date = new Date();
+        date.setDate(date.getDate()+6);
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        day = date.getDate();
+        document.getElementById("6").innerHTML = day + "/" + month + "/" + year;
+    </script></div><h1></h1></center></p>
+       {%endif%}
+
     {% endfor %}
    <div class="row">
        <div class="column"><img src="static/img/H8.png" alt="Mapa H8"> </div>
