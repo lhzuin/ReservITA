@@ -113,7 +113,24 @@
        {%endif%}
     {% endfor %}
    <div class="row">
-       <div class="column"><img src="static/img/H8.png" alt="Mapa H8"> </div>
+       {% if room == "A - Churrasqueira"%}
+       <div class="column"><img src="static/img/churrasqueira.png" alt="churrasqueira"> </div>
+       {% endif %}
+       {% if room == "B - Sala de Jogos"%}
+       <div class="column"><img src="static/img/saladejogos.png" alt="saladejogos"> </div>
+       {% endif %}
+       {% if room == "C - Cineclube"%}
+       <div class="column"><img src="static/img/cineclube.png" alt="cineclube"> </div>
+       {% endif %}
+       {% if room == "D - Sala Precisa"%}
+       <div class="column"><img src="static/img/salaprecisa.png" alt="salaprecisa"> </div>
+       {% endif %}
+       {% if room == "E - Sala de Música"%}
+       <div class="column"><img src="static/img/salademusica.png" alt="salademusica"> </div>
+       {% endif %}
+       {% if room == "F - Sala de Piano"%}
+       <div class="column"><img src="static/img/saladepiano.png" alt="saladepiano"> </div>
+       {% endif %}
        <div class="column2"><form action="select_time" method = "POST">
 <div>
     <p><strong>Horários</strong></p>

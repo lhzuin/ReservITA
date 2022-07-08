@@ -6,7 +6,6 @@ from datetime import date
 
 selected_room = None
 
-#from choose_room_form import pergunta
 app = Flask(__name__)
 CORS(app)
 

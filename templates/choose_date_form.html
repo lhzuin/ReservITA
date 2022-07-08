@@ -34,8 +34,21 @@
         {% for key,value in form_data.items() %}
     {% if value == "A - Churrasqueira"%}
        <div class="column"><img src="static/img/churrasqueira.png" alt="churrasqueira"> </div>
-       {% else %}
-       <div class="column"><img src="static/img/H8.png" alt="Mapa H8"> </div>
+       {% endif %}
+       {% if value == "B - Sala de Jogos"%}
+       <div class="column"><img src="static/img/saladejogos.png" alt="saladejogos"> </div>
+       {% endif %}
+       {% if value == "C - Cineclube"%}
+       <div class="column"><img src="static/img/cineclube.png" alt="cineclube"> </div>
+       {% endif %}
+       {% if value == "D - Sala Precisa"%}
+       <div class="column"><img src="static/img/salaprecisa.png" alt="salaprecisa"> </div>
+       {% endif %}
+       {% if value == "E - Sala de Música"%}
+       <div class="column"><img src="static/img/salademusica.png" alt="salademusica"> </div>
+       {% endif %}
+       {% if value == "F - Sala de Piano"%}
+       <div class="column"><img src="static/img/saladepiano.png" alt="saladepiano"> </div>
        {% endif %}
     {% endfor %}
 
