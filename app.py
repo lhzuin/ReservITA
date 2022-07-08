@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Flask, render_template, url_for, request, redirect
 from markupsafe import escape
 from flask_cors import CORS
@@ -39,7 +41,7 @@ def choose_date():
         form_data = request.form
         global selected_room
         selected_room = form_data["pergunta"]
-        print(selected_room)
+        #print(selected_room)
         return render_template('choose_date_form.html', form_data=form_data)
     else:
         return render_template('form.html', error=error)
@@ -51,8 +53,10 @@ def select_time():
     error = None
     if request.method == 'POST':
         form_data = request.form
-        print(selected_room)
-        return render_template('choose_hour_form.html', form_data=form_data, room = selected_room)
+        shift = int(form_data["pergunta"])
+        reservation_date = date.today() + datetime.timedelta(days = shift)
+        final_date = str(reservation_date.day) + '/' + str(reservation_date.month) + '/' + str(reservation_date.year)
+        return render_template('choose_hour_form.html', chosen_date = final_date, room = selected_room)
     else:
         return render_template('form.html', error=error)
     # the code below is executed if the request method

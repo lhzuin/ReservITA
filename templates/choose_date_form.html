@@ -55,13 +55,13 @@
        <div class="column2"><form action="select_time" method = "POST">
 <div>
     <p><strong>Escolha uma data</strong></p>
-    <p><div id = "today"> <input type="radio" name="pergunta" value= "today">
+    <p><div id = "0"> <input type="radio" name="pergunta" value= "0">
     <script>
         date = new Date();
         year = date.getFullYear();
         month = date.getMonth() + 1;
         day = date.getDate();
-        document.getElementById("today").innerHTML += day + "/" + month + "/" + year;
+        document.getElementById("0").innerHTML += day + "/" + month + "/" + year;
     </script></div>
 
     <p><div id = "offset1"><input type="radio" name="pergunta" value="1">
