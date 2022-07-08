@@ -8,6 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 import room_db
 import user_db
 from datetime import date
+from random import randint
 
 
 
@@ -40,6 +41,7 @@ class Horarios(db.Model):
     aluno = db.Column(db.String(200))
 
     def __init__(self, date, room, intervalo, aluno):
+        self.id = randint(1, 1000000)
         self.date = date
         self.room = room
         self.intervalo = intervalo
@@ -47,8 +49,7 @@ class Horarios(db.Model):
 
 class User(db.Model):
     __tablename__ = 'usuarios'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100))
+    username = db.Column(db.String(100), primary_key=True)
     password = db.Column(db.String(200))
     def __init(self, name, password):
         self.username = name
@@ -56,25 +57,29 @@ class User(db.Model):
 
 def valid_login(username, password): # checa se usuário apresentou credenciais válidas
     #return True
-    return db.session.query(User).filter(User.username == username and User.password == password).count() != 0
+    return db.session.query(User).filter(User.username == username).filter(User.password == password).count() != 0
 def check_schedule(room, date): # checa horários livres de uma sala
     #room ex: "A - Churrasqueira"
     #date ex: "8/7/2022"
     horarios_livres = ["00:00 - 00:30", "00:30 - 01:00", "01:00 - 01:30", "01:30 - 02:00", "07:00 - 07:30", "07:30 - 08:00"]
     for horario in horarios_livres:
-        if db.session.query(Horarios).filter(Horarios.intervalo == horario and Horarios.room == room and Horarios.date == date).count() != 0:
+        if db.session.query(Horarios).filter(Horarios.intervalo == horario).filter(Horarios.room == room).filter(Horarios.date == date).count() != 0:
             horarios_livres.remove(horario)
     return horarios_livres # returns free schedule
 
 
 def make_reservation(room, date, time, user): # faz reserva de uma sala para usuário na data solicitada
+    print(date)
     reservation = Horarios(date, room, time, user)
     db.session.add(reservation)
     db.session.commit()
+
+
 def cancel_reservation(room, date, time): # cancela a reserva do usuário
     pass
 
 def check_past_reservations(room, user): # retorna todos as reservas feitas pelo user na sala room
+    #if db.session.query(Horarios).filter(Horarios.room == room.filter(Horarios.aluno == user).count != 0:
     return [["10/7/2022", "14:00 - 14:30"], ["10/7/2022", "14:30 - 15:00"]]
 
 @app.route('/')
