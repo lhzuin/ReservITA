@@ -60,7 +60,11 @@ def make_reservation(room, date, time, user):
     reservation = Horarios(date, room, time, user)
     db.session.add(reservation)
     db.session.commit()
+def cancel_reservation(room, date, time):
+    pass
 
+def check_past_reservations(room, user): # retorna todos as reservas feitas pelo user na sala room conforme o formato abaixo
+    return ["14:00 - 14:30  10/07/2022", "14:30 - 15:00  10/07/2022"]
 
 @app.route('/')
 def index():
@@ -72,7 +76,6 @@ def form():
 
 @app.route('/data', methods=['POST', 'GET'])
 def data():
-    error = None
     if request.method == 'POST':
         form_data = request.form
         global username
@@ -80,12 +83,21 @@ def data():
         if user_db.valid_login(form_data['username'],form_data['password']):
             return render_template('choose_room_form.html', form_data=form_data)
         else:
-            error = 'Invalid username/password'
+            return render_template('wrong_login.html')
+    else:
+        return render_template('form.html')
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
+
+@app.route('/choose_room_check', methods=['POST', 'GET'])
+def choose_room_check():
+    error = None
+    if request.method == 'POST':
+        return render_template('choose_room_check_reservations.html')
     else:
         return render_template('form.html', error=error)
     # the code below is executed if the request method
     # was GET or the credentials were invalid
-
 
 @app.route('/choose_date', methods=['POST', 'GET'])
 def choose_date():
@@ -109,8 +121,21 @@ def select_time():
         reservation_date = date.today() + datetime.timedelta(days = shift)
         global final_date
         final_date = str(reservation_date.day) + '/' + str(reservation_date.month) + '/' + str(reservation_date.year)
-        available_schedule = check_schedule(selected_room, final_date)
+        available_schedule = room_db.check_schedule(selected_room, final_date)
         return render_template('choose_hour_form.html', chosen_date = final_date, room = selected_room, schedule = available_schedule)
+    else:
+        return render_template('form.html', error=error)
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
+
+@app.route('/select_scheduled_time', methods=['POST', 'GET'])
+def select_scheduled_time():
+    if request.method == 'POST':
+        form_data = request.form
+        global selected_room
+        selected_room = form_data["pergunta"]
+        past_reservations = check_past_reservations(selected_room, username)
+        return render_template('select_scheduled_time.html', room = selected_room, schedule = past_reservations)
     else:
         return render_template('form.html', error=error)
     # the code below is executed if the request method
@@ -145,6 +170,37 @@ def reservation_complete():
         return render_template('form.html', error=error)
     # the code below is executed if the request method
     # was GET or the credentials were invalid
+
+@app.route('/reservation_cancelled', methods=['POST', 'GET'])
+def reservation_cancelled():
+    error = None
+    if request.method == 'POST':
+        form_data = request.form
+        for (x,time) in form_data.items():
+            minute = int(time[3:5])
+            hour = int(time[0:2])
+            new_hour = str(hour)
+            new_minute = str(minute)
+            if(minute == 0 and hour < 10):
+                new_hour = '0'+ str(hour)
+                new_minute = '30'
+            elif (minute == 0 and hour >=10):
+                new_hour = str(hour)
+                new_minute = '30'
+            elif (minute == 30 and hour < 9):
+                new_hour = '0' + str(hour+1)
+                new_minute = '00'
+            elif (minute == 30 and hour >= 9):
+                new_hour = str(hour+1)
+                new_minute = '00'
+            room_db.cancel_reservation(selected_room,  "1/1/1", time + " - " + new_hour + ':' + new_minute)
+
+        return render_template('reservation_complete.html')
+    else:
+        return render_template('form.html', error=error)
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
+
 
 @app.route('/user/<username>/') #por enquanto é inútil
 def show_user_profile(username):

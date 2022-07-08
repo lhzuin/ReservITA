@@ -27,7 +27,7 @@
 </head>
 <body>
    <center><img src="static/img/ReservITA.png" alt="Logo ReservITA"></center>
-   <p><center><h1> {{room}}: {{chosen_date}} </h1> </center></p>
+   <p><center><h1> {{room}} </h1> </center></p>
 
    <div class="row">
        {% if room == "A - Churrasqueira"%}
@@ -48,13 +48,13 @@
        {% if room == "F - Sala de Piano"%}
        <div class="column"><img src="static/img/saladepiano.png" alt="saladepiano"> </div>
        {% endif %}
-       <div class="column2"><form action="reservation_complete" method = "POST">
+       <div class="column2"><form action="reservation_cancelled" method = "POST">
 <div>
     <p><strong>Horários</strong></p>
             {% for time in schedule%}
-            <p><input type="checkbox" name={{time}} value= {{time}}>{{time}}</p>
+            <p><input type="checkbox" name={{forloop.counter0}} value= {{time}}>{{time}}</p>
             {% endfor %}
-           <left><p><input type = "submit" value = "Reservar horários" /></p></left>
+           <left><p><input type = "submit" value = "Cancelar Reservas" /></p></left>
 </form>
 </div>
        </div>
