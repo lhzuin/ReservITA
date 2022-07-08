@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 def valid_login(username, password):
     #return True
-    user = User.query.filter_by( user.username).first()
+    user = User.query.filter_by( username).first()
 
     if not user or not check_password_hash(user.password, password):
         return True
